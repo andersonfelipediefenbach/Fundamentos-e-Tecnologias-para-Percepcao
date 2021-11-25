@@ -38,25 +38,24 @@ def get_data(dir_path):
     return x, y
 
 
-# In[7]:
-
+# 
 
 xtrain, ytrain = get_data('D:/Mestrado/fundamentos/covid-face-mask-detection-dataset/New Masks Dataset/Train')
 
 
-# In[8]:
+# 
 
 
 xvalid, yvalid = get_data('D:/Mestrado/fundamentos/covid-face-mask-detection-dataset/New Masks Dataset/Validation')
 
 
-# In[9]:
+# 
 
 
 xtest, ytest = get_data('D:/Mestrado/fundamentos/covid-face-mask-detection-dataset/New Masks Dataset/Test')
 
 
-# In[10]:
+# 
 
 
 #cria a cnn
@@ -99,14 +98,14 @@ cnn.summary()
 
 
 
-# In[11]:
+# 
 
 
 #plata o gráfico da cnn e suas camadas
 keras.utils.plot_model(cnn)
 
 
-# In[2]:
+#
 
 
 #treina o modelo
@@ -114,7 +113,7 @@ cnn.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 training = cnn.fit(xtrain,ytrain,batch_size=10,validation_data=(xvalid,yvalid),epochs=10)
 
 
-# In[13]:
+#
 
 
 #exibe os parâmetros por epoch
@@ -122,7 +121,7 @@ training_history = pd.DataFrame(training.history)
 training_history
 
 
-# In[14]:
+#
 
 
 fig = px.line(training_history[['loss','val_loss']],labels={'value':'<-- Loss','index':'Epochs -->'})
@@ -133,7 +132,7 @@ fig.update_layout(title={'text':'Accuracy Per Epochs','font_size':23,'font_color
 fig.show()
 
 
-# In[15]:
+# 
 
 
 #Printa a classificação do modelo só com a CNN
@@ -148,7 +147,7 @@ print('\n\nConfusion Matrix : \n\n',confusion_matrix(ytest,ypred))
 print('\n\nClassification Report : \n\n',classification_report(ytest,ypred))
 
 
-# In[16]:
+# 
 
 
 transfer = keras.applications.ResNet152V2()
@@ -165,13 +164,13 @@ transfer = keras.Model(inputs=inp,outputs=out)
 transfer.summary()
 
 
-# In[17]:
+# 
 
 
 keras.utils.plot_model(transfer)
 
 
-# In[18]:
+# 
 
 
 #treina agora com a Resnet
@@ -179,7 +178,7 @@ transfer.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'
 training = transfer.fit(xtrain,ytrain,batch_size=10,validation_data=(xvalid,yvalid),epochs=10)
 
 
-# In[19]:
+#
 
 
 #Printa o valor de epoch com a Resnet
@@ -187,7 +186,7 @@ training_history = pd.DataFrame(training.history)
 training_history
 
 
-# In[20]:
+# 
 
 
 fig = px.line(training_history[['loss','val_loss']],labels={'value':'<-- Loss','index':'Epochs -->'})
@@ -198,7 +197,7 @@ fig.update_layout(title={'text':'Accuracy Per Epochs','font_size':23,'font_color
 fig.show()
 
 
-# In[21]:
+#
 
 
 #Mostra a precisão do modelo
@@ -213,20 +212,20 @@ print('\n\nConfusion Matrix : \n\n',confusion_matrix(ytest,ypred))
 print('\n\nClassification Report : \n\n',classification_report(ytest,ypred))
 
 
-# In[22]:
+# 
 
 
 #Salva o modelo treinado para reconhecimento
 transfer.save('covid_mask_detection_model.h5')
 
 
-# In[23]:
+# 
 
 
 model = keras.models.load_model('./covid_mask_detection_model.h5')
 
 
-# In[24]:
+# 
 
 
 def predict(img):
@@ -241,7 +240,7 @@ def predict(img):
     return predict
 
 
-# In[25]:
+# 
 
 
 def view_prediction(img):
@@ -258,14 +257,14 @@ def view_prediction(img):
     return PIL.Image.fromarray(img)
 
 
-# In[26]:
+# 
 
 
 #teste de pessoa sem máscara
 view_prediction('D:/Mestrado/fundamentos/covid-face-mask-detection-dataset/New Masks Dataset/250.jpg')
 
 
-# In[27]:
+# 
 
 
 #teste de pessoa com máscara
